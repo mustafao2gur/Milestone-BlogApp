@@ -33,7 +33,7 @@ const authSlice = createSlice({
       state.currentUser = payload?.username;
       state.img = payload?.image;
       state.error = false;
-            state.token = payload?.token;
+      state.token = payload?.token;
     },
     fetchFail: (state) => {
       state.loading = false;

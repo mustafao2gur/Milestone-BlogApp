@@ -9,7 +9,7 @@ const blogSlice = createSlice({
   initialState: {
     blogs: [],
     categories: "",
-    comments: "",
+    comments: [],
     likes: "",
     details:[],
     loading: false,
@@ -32,11 +32,16 @@ const blogSlice = createSlice({
     getDetail:(state,{payload:{data}})=>{
          state.loading = false;
          state.details=data
-
+            },
+            getComments:(state ,{payload:{data}})=>{
+  state.loading = false;
+  state.comments=data
             }
+    
   },
 });
 
-export const { fetchStart, fetchFail, getBlogs, getDetail } = blogSlice.actions;
+export const { fetchStart, fetchFail, getBlogs, getDetail, getComments } =
+  blogSlice.actions;
 
 export default blogSlice.reducer

@@ -17,8 +17,7 @@ import { useNavigate } from "react-router";
 import useBlogCalls from "../../hooks/useBlogCalls";
 
 const Cards = ({ item }) => {
-  const [like, setLike] = useState(false);
-  const [count, setCount] = useState(0);
+
   const {getLike}=useBlogCalls()
   // const { currentUser } = useSelector((state) => state.auth);
   const navigate=useNavigate()

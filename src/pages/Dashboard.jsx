@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import Card from '../components/blog/Card';
 import { Grid } from '@mui/material';
 import { flexCard } from '../components/styles/globalStyle';
-import { Outlet } from 'react-router';
+
 
 const Dashboard = () => {
   const { getBlogsData } = useBlogCalls();
@@ -23,7 +23,7 @@ getBlogsData("blogs")
             <Card item={item} />
           </Grid>
         ))}
-        <Outlet/>
+ 
       </Grid>
     </>
   );

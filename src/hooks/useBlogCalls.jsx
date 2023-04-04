@@ -1,7 +1,13 @@
-import axios from "axios";
+
 
 import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, getBlogs, getDetail } from "../features/blogSlice";
+import {
+  fetchFail,
+  fetchStart,
+  getBlogs,
+  getDetail,
+  getComments,
+} from "../features/blogSlice";
 import useAxios from "./useAxios";
 
 
@@ -28,7 +34,7 @@ const useBlogCalls = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.get(`api/${url}/${id}/`);
-      console.log(data)
+
       dispatch(getDetail({ data }));
 
     } catch (error) {
@@ -50,7 +56,25 @@ const useBlogCalls = () => {
          dispatch(fetchFail());
        }
      };
-  return { getBlogsData, getCommet, getLike };
+
+     //!------------------PostComments----------
+ const postComments=async(url,id,info)=>{
+   dispatch(fetchStart());
+  try{
+const { data } = await axiosWithToken.post(`api/${url}/${id}/`,info);
+dispatch(getComments({data}));
+getBlogsData("blogs");
+
+  }catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+    }
+   
+ }
+
+
+
+  return { getBlogsData, getCommet, getLike, postComments };
 };
 
 export default useBlogCalls;
