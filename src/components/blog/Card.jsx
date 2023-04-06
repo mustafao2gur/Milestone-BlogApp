@@ -10,7 +10,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import MessageIcon from "@mui/icons-material/Message";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Box } from "@mui/material";
-import { useState } from "react";
+
 // import { useSelector } from "react-redux";
 import { btnDetail, cardButton, cardStyle, iconStyle } from "../styles/globalStyle";
 import { useNavigate } from "react-router";
@@ -61,20 +61,19 @@ const Cards = ({ item }) => {
       </CardContent>
       <CardActions sx={cardButton}>
         <Box sx={iconStyle}>
-          <Typography
-      
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <ThumbUpIcon onClick={() => getLike("likes",item.id)} />
+          <Typography sx={{ display: "flex", alignItems: "center" }}>
+            <ThumbUpIcon onClick={() => getLike("likes", item.id)} />
             {item.likes}
           </Typography>
 
           <Typography sx={{ display: "flex", alignItems: "center" }}>
-            <MessageIcon />2
+            <MessageIcon />
+            {item.comment_count}
           </Typography>
 
           <Typography sx={{ display: "flex", alignItems: "center" }}>
-            <RemoveRedEyeIcon />3
+            <RemoveRedEyeIcon />
+            {item.post_views}
           </Typography>
         </Box>
 

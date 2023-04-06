@@ -12,7 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-import logo from "../assets/clr.png" 
+import logo from "../assets/1.png" 
 
 import { grey } from "@mui/material/colors";
 import {  useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ function Navbar() {
     const { currentUser,img } = useSelector((state) => state.auth);
     
   const {logout}=useAuthCalls()
-  console.log(img);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 

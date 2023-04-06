@@ -7,8 +7,9 @@ const authSlice = createSlice({
     currentUser: null,
     loading: false,
     error: false,
-    img:null,
-    token:null
+    img:"",
+    token:null,
+    id:""
   },
   reducers: {
     fetchStart: (state) => {
@@ -20,6 +21,7 @@ const authSlice = createSlice({
       state.currentUser = payload?.user?.username;
       state.img = payload?.user?.image;
       state.token = payload?.key;
+      state.id = payload?.user?.id;
     },
     
     logoutSuccess: (state) => {
@@ -34,6 +36,7 @@ const authSlice = createSlice({
       state.img = payload?.image;
       state.error = false;
       state.token = payload?.token;
+      state.id=payload?.id
     },
     fetchFail: (state) => {
       state.loading = false;

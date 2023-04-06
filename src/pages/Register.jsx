@@ -3,26 +3,23 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import LockIcon from "@mui/icons-material/Lock";
 import { Formik } from "formik";
-
+// import image from "../assets/img.png";
 import Grid from "@mui/material/Grid";
 import RegisterForm, { registerSchema } from "../components/auth/RegisterForm";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
-import useAuthCalls from "../hooks/useAuthCalls";
-// import image from "../assets/learning-and-5.png";
 
-// import useAuthCall from "../hooks/useAuthCall";
+import useAuthCalls from "../hooks/useAuthCalls";
 
 const Register = () => {
-    const { register } = useAuthCalls();
+  const { register } = useAuthCalls();
 
   return (
     <Container
-      maxWidth="lg"
       sx={{
-        // height: "88vh",
-        m: "2rem",
+        height: "88vh",
       }}
+      maxWidth="lg"
     >
       <Grid
         container
@@ -30,10 +27,16 @@ const Register = () => {
         direction="row-reverse"
         rowSpacing={{ sm: 3 }}
       >
+        <Grid item xs={12}>
+          <Typography variant="h4" sx={{ m: 0 }} color="red" align="center">
+            BLOG APP
+          </Typography>
+        </Grid>
+
         <Grid item xs={12} sm={10} md={6}>
           <Avatar
             sx={{
-              backgroundColor: "secondary.light",
+              backgroundColor: "red",
               m: "auto",
               width: 40,
               height: 40,
@@ -41,12 +44,7 @@ const Register = () => {
           >
             <LockIcon size="30" />
           </Avatar>
-          <Typography
-            variant="h4"
-            align="center"
-            mb={2}
-            color="secondary.light"
-          >
+          <Typography variant="h5" align="center" mb={2} color="red">
             Register
           </Typography>
 
@@ -67,13 +65,13 @@ const Register = () => {
             component={(props) => <RegisterForm {...props} />}
           ></Formik>
           <Box sx={{ textAlign: "center", mt: 2 }}>
-            <Link to="/auth">Do you have an account?</Link>
+            <Link to="/login">Do you have an account?</Link>
           </Box>
         </Grid>
 
-        <Grid item xs={12} sm={8} md={6}>
+        <Grid item xs={0} sm={7} md={6}>
           <Container>
-            {/* <img src={image} alt="" width={400} height={290} /> */}
+            {/* <img src={image} alt="img" width={400} /> */}
           </Container>
         </Grid>
       </Grid>

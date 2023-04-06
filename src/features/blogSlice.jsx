@@ -1,17 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
-
-
-
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const blogSlice = createSlice({
   name: "blog",
   initialState: {
     blogs: [],
-    categories: "",
+    categories: [],
     comments: [],
     likes: "",
-    details:[],
+    details: [],
+    myBlog: [],
     loading: false,
     error: false,
   },
@@ -24,24 +21,33 @@ const blogSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
-    getBlogs:(state,{payload:{data,url}})=>{
-          state.loading = false;
-        //   state.blogs=data
-        state[url]=data
-            },
-    getDetail:(state,{payload:{data}})=>{
-         state.loading = false;
-         state.details=data
-            },
-            getComments:(state ,{payload:{data}})=>{
-  state.loading = false;
-  state.comments=data
-            }
-    
+    getBlogs: (state, { payload: { data, url } }) => {
+      state.loading = false;
+      //   state.blogs=data
+      state[url] = data;
+    },
+    getMyBlog: (state, { payload: { data } }) => {
+      state.loading = false;
+      state.myBlog = data;
+    },
+    getDetail: (state, { payload: { data } }) => {
+      state.loading = false;
+      state.details = data;
+    },
+    getComments: (state, { payload: { data } }) => {
+      state.loading = false;
+      state.comments = data;
+    },
   },
 });
 
-export const { fetchStart, fetchFail, getBlogs, getDetail, getComments } =
-  blogSlice.actions;
+export const {
+  fetchStart,
+  fetchFail,
+  getBlogs,
+  getDetail,
+  getComments,
+  getMyBlog,
+} = blogSlice.actions;
 
-export default blogSlice.reducer
+export default blogSlice.reducer;

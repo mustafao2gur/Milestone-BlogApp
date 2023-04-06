@@ -14,13 +14,13 @@ import { Box, TextField } from "@mui/material";
 import {
   btnDetail,
   cardButton,
-  cardStyle,
+
   iconStyle,
 } from "../styles/globalStyle";
-import { useNavigate } from "react-router";
+
 import useBlogCalls from "../../hooks/useBlogCalls";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+
+import {  useState } from "react";
 import CommentForm from "./CommentForm";
 
 
@@ -45,10 +45,13 @@ setToggle(!toggle);
 
 
   }
-const  handleClick=()=>{
-  postComments("comments",id,{...info,post:id})
 
-}
+  
+const handleSubmit = (e) => {
+  e.preventDefault()
+  postComments("comments", id, { ...info, post: id });
+
+};
   return (
     <div>
       <Card>
@@ -88,7 +91,7 @@ const  handleClick=()=>{
             </Typography>
 
             <Typography sx={{ display: "flex", alignItems: "center" }}>
-              <MessageIcon onClick={handleToggle}/>2
+              <MessageIcon onClick={handleToggle} />2
             </Typography>
 
             <Typography sx={{ display: "flex", alignItems: "center" }}>
@@ -98,23 +101,26 @@ const  handleClick=()=>{
           <Typography
             sx={{ display: "flex", alignItems: "center" }}
           ></Typography>
-{toggle &&
-<Box >
-  <CommentForm comments={comments}/>
-      <TextField
-            label="comments"
-            id={info.post}
-            name="content"
-            type="text"
-            variant="outlined"
-            onChange={handleChange}
-          />
+          {toggle && (
+            <form onSubmit={handleSubmit}>
+              <Box>
+                <CommentForm comments={comments} />
+                <TextField
+                  label="comments"
+                  id={info.post}
+                  name="content"
+                  type="text"
+                  
+                  variant="outlined"
+                  onChange={handleChange}
+                />
 
-          <Button type="submit" sx={btnDetail} variant="contained" onClick={handleClick} >
-            ADD COMMENT
-          </Button>
-</Box>
-       }
+                <Button type="submit" sx={btnDetail} variant="contained">
+                  ADD COMMENT
+                </Button>
+              </Box>
+            </form>
+          )}
         </CardActions>
       </Card>
     </div>
