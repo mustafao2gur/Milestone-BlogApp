@@ -9,20 +9,21 @@ import FaceIcon from "@mui/icons-material/Face";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import MessageIcon from "@mui/icons-material/Message";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { Box } from "@mui/material";
+import { Box, ListItemButton } from "@mui/material";
 
 // import { useSelector } from "react-redux";
 import { btnDetail, cardButton, cardStyle, iconStyle } from "../styles/globalStyle";
 import { useNavigate } from "react-router";
 import useBlogCalls from "../../hooks/useBlogCalls";
+import { useSelector } from "react-redux";
 
 const Cards = ({ item }) => {
 
   const {getLike}=useBlogCalls()
   // const { currentUser } = useSelector((state) => state.auth);
   const navigate=useNavigate()
-
-
+  const { myBlog } = useSelector((state) => state.blog);
+console.log(myBlog);
 
   return (
     <Card sx={cardStyle}>
@@ -77,13 +78,18 @@ const Cards = ({ item }) => {
           </Typography>
         </Box>
 
-        <Button
+        {/* <Button
           onClick={() => navigate(`detail/${item.id}`)}
           sx={btnDetail}
           variant="contained"
         >
           Read More
-        </Button>
+        </Button> */}
+        <ListItemButton to={`detail/${item.id}`} sx={btnDetail}>
+          Read More
+        </ListItemButton>
+
+     
       </CardActions>
     </Card>
   );

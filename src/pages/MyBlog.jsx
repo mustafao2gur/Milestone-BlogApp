@@ -17,7 +17,7 @@ const MyBlog = () => {
   return (
     <>
       <Grid container sx={flexCard}>
-        {myBlog.map((item) => (
+        {myBlog?.map((item) => (
           <Grid item key={item.id}>
             <Card item={item} />
           </Grid>

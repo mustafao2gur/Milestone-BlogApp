@@ -98,6 +98,7 @@ const handleSubmit = (e) => {
               <RemoveRedEyeIcon />3
             </Typography>
           </Box>
+
           <Typography
             sx={{ display: "flex", alignItems: "center" }}
           ></Typography>
@@ -110,7 +111,6 @@ const handleSubmit = (e) => {
                   id={info.post}
                   name="content"
                   type="text"
-                  
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -122,6 +122,21 @@ const handleSubmit = (e) => {
             </form>
           )}
         </CardActions>
+        <Box
+          sx={{
+            my: 3,
+            display: "flex",
+            gap: 3,
+            justifyContent: "center",
+          }}
+        >
+          <Button variant="contained" size="small" color="success">
+            Update Blog
+          </Button>
+          <Button variant="contained" size="small" color="error">
+            Delete Blog
+          </Button>
+        </Box>
       </Card>
     </div>
   );
