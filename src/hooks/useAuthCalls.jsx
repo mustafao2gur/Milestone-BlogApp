@@ -26,7 +26,7 @@ const useAuthCalls = () => {
         userInfo
 
       );
-      console.log(data);
+
       dispatch(loginSuccess(data));
       toastSuccessNotify("Login performed");
       navigate("/");

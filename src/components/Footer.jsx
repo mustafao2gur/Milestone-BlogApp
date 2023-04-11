@@ -3,18 +3,19 @@ import { grey } from '@mui/material/colors';
 import React from 'react'
 
 const Footer = () => {
+  const styles = {
+    width: "100%",
+    height: "10vh",
+    padding: "5px",
+    color: "black",
+    bgcolor: "gray",
+    textAlign: "center",
+    marginTop: "20px",
+    color:"white"
+  };
   return (
-    <Box
-      sx={{
-        textAlign: "center",
-        p: 2,
-        position: "fixed",
-        bottom: 0,
-        bgcolor: grey["600"],
-        width: "100%",
-      }}
-    >
-      <Typography>Developed by FS Team</Typography>
+    <Box sx={styles} >
+      <Typography sx={{p:1}}>Developed by FS Team</Typography>
       <Typography>
         Copyright ©{" "}
         <a href="https://www.linkedin.com/in/mustafa-ozgur-/" target="blank">

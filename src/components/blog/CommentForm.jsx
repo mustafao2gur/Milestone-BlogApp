@@ -22,6 +22,7 @@ console.log(comments);
       sx={{
         width: "100%",
         maxWidth: 360,
+        minWidth:200,
         bgcolor: "background.paper",
       }}
     >

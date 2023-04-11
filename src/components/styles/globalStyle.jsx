@@ -66,7 +66,7 @@ export const cardButton = {
 
 export const iconStyle = {
   display: "flex",
-  justifyContent: "space-around",
+  // justifyContent: "space-around",
   gap: 2,
   fontSize: "1.5rem",
 };
@@ -76,4 +76,9 @@ export const btnDetail = {
   bgcolor: red[200],
 
   "&:hover": { color: "white", bgcolor: "red" },
+};
+
+export const CardBlog = {
+  display: "flex",
+  flexDirection: "column",
 };

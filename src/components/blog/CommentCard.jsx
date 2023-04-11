@@ -8,9 +8,15 @@ import FaceIcon from "@mui/icons-material/Face";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import MessageIcon from "@mui/icons-material/Message";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { Box, TextField } from "@mui/material";
+import { Box, Grid, TextField } from "@mui/material";
 
-import { btnDetail, cardButton, iconStyle } from "../styles/globalStyle"
+import {
+  CardBlog,
+  btnDetail,
+  cardButton,
+  flexCard,
+  iconStyle,
+} from "../styles/globalStyle";
 
 import useBlogCalls from "../../hooks/useBlogCalls";
 
@@ -20,7 +26,6 @@ import CommentForm from "./CommentForm";
 import { useSelector } from "react-redux";
 import UpdateModal from "./UpdateModal";
 import DeleteModal from "./DeleteModal";
-import { useNavigate } from "react-router";
 
 const CommentCard = ({
   setOpen,
@@ -32,53 +37,51 @@ const CommentCard = ({
   showComment,
   setShowComment,
 }) => {
+  const {
+    author,
+    content,
+    image,
+    likes,
 
-  const { author, content, image, likes, publish_date, id, comments ,comment_count,post_views} = details;
+    id,
+    comments,
+    publish_date,
+    comment_count,
+    post_views,
+  } = details;
 
-const navigate=useNavigate()
-
-  const [info, setInfo] = useState({
-    content: "",
-  });
-
+  const [info, setInfo] = useState(details);
   const [toggle, setToggle] = useState(false);
-
   const { getLike, postComments, deleteData } = useBlogCalls();
 
   const handleChange = (e) => {
-    setInfo({ ...info, [e.target.name]: e.target.value });
-
-    console.log(e.target.value);
+    const { name, value } = e.target;
+    setInfo({ ...info, [name]: value });
   };
   const { currentUser } = useSelector((state) => state.auth);
   const handleToggle = () => {
     setToggle(!toggle);
     setShowComment(!showComment);
   };
+
+  const handleDelete = () => {
+    deleteData("blogs", id);
+    console.log(id);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     postComments("comments", id, {
       ...info,
       post: id,
     });
+
     setInfo({});
   };
-  const [data, setData] = useState(details)
-const handleDelete=()=>{
-navigate("/")
-  deleteData("blogs",id)
-console.log(id)
-}
-
-const handleUpdate=()=>{
-  setData(data);
-  handleOpen()
-
-}
 
   return (
-    <div>
-      <Card>
+    <Box sx={{ mx: 10 }}>
+      <Card sx={CardBlog}>
         <Typography
           component="div"
           sx={{ display: "flex", justifyContent: "center", mt: 2 }}
@@ -106,8 +109,6 @@ const handleUpdate=()=>{
             <FaceIcon />
             {author}
           </Typography>
-        </CardContent>
-        <CardActions sx={cardButton}>
           <Box sx={iconStyle}>
             <Typography sx={{ display: "flex", alignItems: "center" }}>
               <ThumbUpIcon onClick={() => getLike("likes", details.id)} />
@@ -115,81 +116,96 @@ const handleUpdate=()=>{
             </Typography>
 
             <Typography sx={{ display: "flex", alignItems: "center" }}>
-              <MessageIcon onClick={handleToggle} />{comment_count}
+              <MessageIcon onClick={handleToggle} />
+              {comment_count}
             </Typography>
 
             <Typography sx={{ display: "flex", alignItems: "center" }}>
-              <RemoveRedEyeIcon />{post_views}
+              <RemoveRedEyeIcon />
+              {post_views}
             </Typography>
           </Box>
-
-          {details.author === currentUser && (
-            <Box
-              sx={{
-                my: 3,
-                display: "flex",
-                gap: 3,
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                onClick={handleUpdate}
-                variant="contained"
-                size="small"
-                color="success"
+        </CardContent>
+        <CardActions sx={cardButton}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            {details.author === currentUser && (
+              <Box
+                sx={{
+                  my: 3,
+                  display: "flex",
+                  gap: 3,
+                  justifyContent: "center",
+                }}
               >
-                Update Blog
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                color="error"
-                onClick={handleDelete}
+                <Button
+                  onClick={() => {
+                    handleOpen();
+                    setInfo(info);
+                  }}
+                  variant="contained"
+                  size="small"
+                  color="success"
+                >
+                  Update Blog
+                </Button>
+                <Button
+                  onClick={handleDelete}
+                  variant="contained"
+                  size="small"
+                  color="error"
+                >
+                  Delete Blog
+                </Button>
+              </Box>
+            )}
+            {toggle && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+
+                  width: 800,
+                  gap: 4,
+                }}
+                onSubmit={handleSubmit}
+                component="form"
               >
-                Delete Blog
-              </Button>
-            </Box>
-          )}
-          <Typography
-            sx={{ display: "flex", alignItems: "center" }}
-          ></Typography>
+                <hr />
+                {showComment && <CommentForm comments={comments} id={id} />}
+                <TextField
+                  label="comments"
+                  id={info.post}
+                  name="content"
+                  type="text"
+                  variant="outlined"
+                  onChange={handleChange}
+                />
 
-          {toggle && (
-            <Box onSubmit={handleSubmit} component="form">
-              <TextField
-                label="comments"
-                id={info.post}
-                name="content"
-                type="text"
-                variant="outlined"
-                onChange={handleChange}
-              />
-
-              <Button type="submit" sx={btnDetail} variant="contained">
-                ADD COMMENT
-              </Button>
-            </Box>
-          )}
+                <Button type="submit" sx={btnDetail} variant="contained">
+                  ADD COMMENT
+                </Button>
+              </Box>
+            )}
+          </Box>
         </CardActions>
-      </Card>
 
-      <UpdateModal
-        handleSubmit={handleSubmit}
-        open={open}
-        handleClose={handleClose}
-        handleOpen={handleOpen}
-        info={details}
-        handleChange={handleChange}
-        setOpen={setOpen}
-      />
-      {showComment && <CommentForm comments={comments} id={id} />}
-      {/* 
-      <DeleteModal
+        <UpdateModal
+          handleSubmit={handleSubmit}
+          open={open}
+          handleClose={handleClose}
+          handleOpen={handleOpen}
+          setInfo={setInfo}
+          info={details}
+          handleChange={handleChange}
+          setOpen={setOpen}
+        />
+        {/* <DeleteModal
             open={openDelete}
             handleCloseDelete={handleCloseDelete}
             id={details.id}
             /> */}
-    </div>
+      </Card>
+    </Box>
   );
 };
 

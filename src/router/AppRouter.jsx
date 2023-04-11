@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Dashboard from "../pages/Dashboard";
 import PrivateRouter from "./PrivateRouter";
 import NewBlog from "../pages/NewBlog";
-// import Footer from "../components/Footer";
+import Footer from "../components/Footer";
 import About from "../pages/About";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
@@ -33,7 +33,7 @@ const AppRouter = () => {
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 };

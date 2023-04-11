@@ -20,13 +20,13 @@ import { red } from "@mui/material/colors";
 
 const Cards = ({ item }) => {
   const {id}=useSelector((state)=>state.auth)
-  console.log(id);
-console.log(item)
+
+
   const {getLike}=useBlogCalls()
   // const { currentUser } = useSelector((state) => state.auth);
   const navigate=useNavigate()
   const { myBlog } = useSelector((state) => state.blog);
-console.log(myBlog);
+
 
 
 
