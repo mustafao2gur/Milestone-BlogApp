@@ -6,12 +6,12 @@ import { Grid } from "@mui/material";
 import { flexCard } from "../components/styles/globalStyle";
 
 const MyBlog = () => {
-  const { getMyBlogData } = useBlogCalls();
+  const { getMyBlogData, deleteData } = useBlogCalls();
   const { myBlog } = useSelector((state) => state.blog);
   const { id } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getMyBlogData("blogs",id);
+    getMyBlogData("blogs", id);
   }, []);
 
   return (

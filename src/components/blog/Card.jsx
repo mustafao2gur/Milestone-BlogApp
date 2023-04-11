@@ -16,14 +16,25 @@ import { btnDetail, cardButton, cardStyle, iconStyle } from "../styles/globalSty
 import { useNavigate } from "react-router";
 import useBlogCalls from "../../hooks/useBlogCalls";
 import { useSelector } from "react-redux";
+import { red } from "@mui/material/colors";
 
 const Cards = ({ item }) => {
-
+  const {id}=useSelector((state)=>state.auth)
+  console.log(id);
+console.log(item)
   const {getLike}=useBlogCalls()
   // const { currentUser } = useSelector((state) => state.auth);
   const navigate=useNavigate()
   const { myBlog } = useSelector((state) => state.blog);
 console.log(myBlog);
+
+
+
+
+const handleLike=()=>{
+
+  getLike("likes", item.id);
+}
 
   return (
     <Card sx={cardStyle}>
@@ -63,7 +74,17 @@ console.log(myBlog);
       <CardActions sx={cardButton}>
         <Box sx={iconStyle}>
           <Typography sx={{ display: "flex", alignItems: "center" }}>
-            <ThumbUpIcon onClick={() => getLike("likes", item.id)} />
+            <ThumbUpIcon
+              sx={{
+                color: `${
+                  item.likes_n?.filter((x) => x.user_id === id)
+                    .length > 0
+                    ? "red"
+                    : "black"
+                }`,
+              }}
+              onClick={handleLike}
+            />
             {item.likes}
           </Typography>
 
@@ -88,8 +109,6 @@ console.log(myBlog);
         <ListItemButton to={`detail/${item.id}`} sx={btnDetail}>
           Read More
         </ListItemButton>
-
-     
       </CardActions>
     </Card>
   );

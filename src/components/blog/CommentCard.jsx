@@ -1,4 +1,3 @@
-
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -11,47 +10,72 @@ import MessageIcon from "@mui/icons-material/Message";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Box, TextField } from "@mui/material";
 
-import {
-  btnDetail,
-  cardButton,
-
-  iconStyle,
-} from "../styles/globalStyle";
+import { btnDetail, cardButton, iconStyle } from "../styles/globalStyle"
 
 import useBlogCalls from "../../hooks/useBlogCalls";
 
-import {  useState } from "react";
+import { useState } from "react";
 import CommentForm from "./CommentForm";
 
+import { useSelector } from "react-redux";
+import UpdateModal from "./UpdateModal";
+import DeleteModal from "./DeleteModal";
+import { useNavigate } from "react-router";
 
-const CommentCard = ({ details }) => {
-  const { author, content, image, likes, publish_date, id, comments } = details;
+const CommentCard = ({
+  setOpen,
+  details,
+  handleOpen,
+  handleClose,
+
+  open,
+  showComment,
+  setShowComment,
+}) => {
+
+  const { author, content, image, likes, publish_date, id, comments ,comment_count,post_views} = details;
+
+const navigate=useNavigate()
 
   const [info, setInfo] = useState({
-   
-
     content: "",
   });
-  const [toggle, setToggle] = useState(false)
-  const { getLike, postComments } = useBlogCalls();
-// const {comments}=useSelector((state)=>state.blog)
-const handleChange=(e)=>{
-    setInfo({ ...info, [e.target.name]:e.target.value }      );
-    console.log(e.target.value)
-  }
-  console.log(info)
-  const handleToggle=()=>{
-setToggle(!toggle);
 
+  const [toggle, setToggle] = useState(false);
 
-  }
+  const { getLike, postComments, deleteData } = useBlogCalls();
 
-  
-const handleSubmit = (e) => {
-  e.preventDefault()
-  postComments("comments", id, { ...info, post: id });
+  const handleChange = (e) => {
+    setInfo({ ...info, [e.target.name]: e.target.value });
 
-};
+    console.log(e.target.value);
+  };
+  const { currentUser } = useSelector((state) => state.auth);
+  const handleToggle = () => {
+    setToggle(!toggle);
+    setShowComment(!showComment);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    postComments("comments", id, {
+      ...info,
+      post: id,
+    });
+    setInfo({});
+  };
+  const [data, setData] = useState(details)
+const handleDelete=()=>{
+navigate("/")
+  deleteData("blogs",id)
+console.log(id)
+}
+
+const handleUpdate=()=>{
+  setData(data);
+  handleOpen()
+
+}
+
   return (
     <div>
       <Card>
@@ -91,55 +115,82 @@ const handleSubmit = (e) => {
             </Typography>
 
             <Typography sx={{ display: "flex", alignItems: "center" }}>
-              <MessageIcon onClick={handleToggle} />2
+              <MessageIcon onClick={handleToggle} />{comment_count}
             </Typography>
 
             <Typography sx={{ display: "flex", alignItems: "center" }}>
-              <RemoveRedEyeIcon />3
+              <RemoveRedEyeIcon />{post_views}
             </Typography>
           </Box>
 
+          {details.author === currentUser && (
+            <Box
+              sx={{
+                my: 3,
+                display: "flex",
+                gap: 3,
+                justifyContent: "center",
+              }}
+            >
+              <Button
+                onClick={handleUpdate}
+                variant="contained"
+                size="small"
+                color="success"
+              >
+                Update Blog
+              </Button>
+              <Button
+                variant="contained"
+                size="small"
+                color="error"
+                onClick={handleDelete}
+              >
+                Delete Blog
+              </Button>
+            </Box>
+          )}
           <Typography
             sx={{ display: "flex", alignItems: "center" }}
           ></Typography>
-          {toggle && (
-            <form onSubmit={handleSubmit}>
-              <Box>
-                <CommentForm comments={comments} />
-                <TextField
-                  label="comments"
-                  id={info.post}
-                  name="content"
-                  type="text"
-                  variant="outlined"
-                  onChange={handleChange}
-                />
 
-                <Button type="submit" sx={btnDetail} variant="contained">
-                  ADD COMMENT
-                </Button>
-              </Box>
-            </form>
+          {toggle && (
+            <Box onSubmit={handleSubmit} component="form">
+              <TextField
+                label="comments"
+                id={info.post}
+                name="content"
+                type="text"
+                variant="outlined"
+                onChange={handleChange}
+              />
+
+              <Button type="submit" sx={btnDetail} variant="contained">
+                ADD COMMENT
+              </Button>
+            </Box>
           )}
         </CardActions>
-        <Box
-          sx={{
-            my: 3,
-            display: "flex",
-            gap: 3,
-            justifyContent: "center",
-          }}
-        >
-          <Button variant="contained" size="small" color="success">
-            Update Blog
-          </Button>
-          <Button variant="contained" size="small" color="error">
-            Delete Blog
-          </Button>
-        </Box>
       </Card>
+
+      <UpdateModal
+        handleSubmit={handleSubmit}
+        open={open}
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+        info={details}
+        handleChange={handleChange}
+        setOpen={setOpen}
+      />
+      {showComment && <CommentForm comments={comments} id={id} />}
+      {/* 
+      <DeleteModal
+            open={openDelete}
+            handleCloseDelete={handleCloseDelete}
+            id={details.id}
+            /> */}
     </div>
   );
 };
 
-export default CommentCard
+export default CommentCard;

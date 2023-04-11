@@ -5,16 +5,20 @@ import {
   fetchFail,
   fetchStart,
   getBlogs,
+  getComments,
   getDetail,
   getMyBlog,
 
 } from "../features/blogSlice";
 import useAxios from "./useAxios";
+import { useNavigate } from "react-router";
 
 
 const useBlogCalls = () => {
   // const BASE_URL = "http://32151.fullstack.clarusway.com/api/";
   const dispatch = useDispatch();
+  const navigate=useNavigate()
+
   const { axiosWithToken, axiosPublic } = useAxios();
 
   //!----------------------------------getBlogsData-----------------
@@ -80,7 +84,7 @@ const postBlog= async (url,  info) => {
     dispatch(fetchFail());
   }
 };
-//!------getMyBlogDAta-------------------
+//!------getMyBlogDAta-------------------------------------------------------------------
   const getMyBlogData = async (url,id) => {
     dispatch(fetchStart());
     try {
@@ -92,19 +96,54 @@ const postBlog= async (url,  info) => {
     }
   };
 
+  //!-----------------Put---------------------------------------------------------
+const putData =async(url,info)=>{
+  dispatch(fetchStart())
+  try {
+  const { data } = await axiosWithToken.put(`api/${url}/${info.id}/`, info);
+    getBlogsData("blogs")
+    dispatch(getBlogs({data}))
+    navigate(-1)
+  } catch (error) {
+    console.log(error)
+    dispatch(fetchFail())
+  }
+}
+
+
+
+//!-----------------------delete-------------------
+
+const deleteData = async (url, id) => {
+    dispatch(fetchStart());
+   try {
+     await axiosWithToken.delete(`api/${url}/${id}/`);
+     getBlogsData("blogs")
+     navigate(-1);
+
+   } catch (error) {
+     console.log(error);
+     dispatch(fetchFail());
+   }
+};
+
 
   //!------------------PostComments----------
   const postComments = async (url, id, info) => {
     dispatch(fetchStart());
     try {
-      await axiosWithToken.post(`api/${url}/${id}/`, info);
+     const {data}= await axiosWithToken.post(`api/${url}/${id}/`, info);
 
-      getBlogsData("blogs");
+
       getCommet("blogs", id);
+      dispatch(getComments({data}))
+
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
     }
+
+
     
   };
   return {
@@ -115,6 +154,8 @@ const postBlog= async (url,  info) => {
     getCategories,
     postBlog,
     getMyBlogData,
+    deleteData,
+    putData
   };
 };
 
