@@ -33,6 +33,8 @@ const authSlice = createSlice({
       state.currentUser = null;
           state.img = null
            state.token = null;
+           state.bio=null;
+           state.email=null
     },
     registerSuccess: (state, { payload }) => {
       state.loading = false;
